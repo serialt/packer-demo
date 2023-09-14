@@ -4,16 +4,33 @@
     name: '*'
     state: latest
 
-- name: Reboot host
-  reboot:
-    connect_timeout: "{{ reboot_connect_timeout }}"
-    post_reboot_delay: "{{ reboot_post_reboot_delay }}"
-    reboot_timeout: "{{ reboot_timeout }}"
-
 - name: Install python3-libselinux
   dnf:
     name: python3-libselinux
     state: present
+
+- name: Install epel
+  dnf: 
+    name: epel-release
+    state: present
+
+- name: Change YUM Source
+  block:
+    - name: Change Base
+      shell: |
+        sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+            -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.sjtug.sjtu.edu.cn/rocky|g' \
+            -i.bak \
+            /etc/yum.repos.d/rocky*.repo
+
+    - name: Change EPEL
+      shell: |
+        sed -e 's|^metalink=|#metalink=|g' \
+                -e 's|^#baseurl=https\?://download.fedoraproject.org/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+                -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+                -i.bak \
+                /etc/yum.repos.d/epel.repo
+
 
 - name: Install Vagrant public SSH key
   authorized_key:

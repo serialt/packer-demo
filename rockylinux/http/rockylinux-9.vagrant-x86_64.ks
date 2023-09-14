@@ -83,11 +83,4 @@ yum clean all
 # permit root login via SSH with password authetication
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/01-permitrootlogin.conf
 
-yum -y install epel-release
-
-sed -e 's|^metalink=|#metalink=|g' \
-         -e 's|^#baseurl=https\?://download.fedoraproject.org/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
-         -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
-         -i.bak \
-         /etc/yum.repos.d/epel.repo
 %end
