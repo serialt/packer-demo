@@ -1,0 +1,60 @@
+# RockyLinux 9 kickstart file for Generic Cloud (OpenStack) ppc64le image
+
+url --url https://mirror.sjtu.edu.cn/rocky/9/BaseOS/ppc64le/kickstart/
+repo --name=BaseOS --baseurl=https://mirror.sjtu.edu.cn/rocky/9/BaseOS/ppc64le/os/
+repo --name=AppStream --baseurl=https://mirror.sjtu.edu.cn/rocky/9/AppStream/ppc64le/os/
+
+text
+skipx
+eula --agreed
+firstboot --disabled
+
+lang C.UTF-8
+keyboard us
+timezone UTC --utc
+
+network --bootproto=dhcp
+firewall --enabled --service=ssh
+services --disabled="kdump" --enabled="chronyd,rsyslog,sshd"
+selinux --enforcing
+
+bootloader --timeout=1 --location=mbr --append="console=tty0 console=ttyS0,115200n8 no_timer_check crashkernel=auto net.ifnames=0"
+
+zerombr
+clearpart --all --initlabel
+reqpart
+part /boot --size=512 --fstype=xfs
+part / --size=8000 --fstype=xfs
+
+rootpw --plaintext rocky
+
+reboot --eject
+
+
+%packages --inst-langs=en
+@core
+dracut-config-generic
+usermode
+-biosdevname
+-dnf-plugin-spacewalk
+-dracut-config-rescue
+-iprutils
+-iwl*-firmware
+-langpacks-*
+-mdadm
+-open-vm-tools
+-plymouth
+-rhn*
+%end
+
+
+# disable kdump service
+%addon com_redhat_kdump --disable
+%end
+
+%post --erroronfail
+
+# permit root login via SSH with password authetication
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/01-permitrootlogin.conf
+
+%end

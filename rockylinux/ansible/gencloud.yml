@@ -1,0 +1,8 @@
+# An Ansible playbook that configures a Generic Cloud (OpenStack) image
+---
+- name: RockyLinux Generic Cloud
+  hosts: default
+  become: true
+
+  roles:
+    - cleanup_vm
