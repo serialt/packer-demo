@@ -1,0 +1,8 @@
+# An Ansible playbook that configures a Vagrant box
+---
+- name: "AlmaLinux Vagrant Box"
+  hosts: default
+  become: true
+  roles:
+    - role: cleanup_vm
+
