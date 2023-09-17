@@ -15,10 +15,10 @@ variable "os_name" {
 
 
 locals {
-  iso_url_x86_64       = "https://mirrors.ustc.edu.cn/ubuntu-releases/${os_ver}/ubuntu-${os_ver}-live-server-amd64.iso"
-  iso_checksum_x86_64  = "file:https://mirrors.ustc.edu.cn/ubuntu-releases/${os_ver}/SHA256SUMS"
-  iso_url_aarch64      = "https://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu/releases/${os_ver}/release/ubuntu-${os_ver}-live-server-arm64.iso"
-  iso_checksum_aarch64 = "file:https://mirrors.ustc.edu.cn/ubuntu-cdimage/releases/${os_ver}/release/SHA256SUMS"
+  iso_url_x86_64       = "https://mirrors.ustc.edu.cn/ubuntu-releases/${var.os_ver}/ubuntu-${var.os_ver}-live-server-amd64.iso"
+  iso_checksum_x86_64  = "file:https://mirrors.ustc.edu.cn/ubuntu-releases/${var.os_ver}/SHA256SUMS"
+  iso_url_aarch64      = "https://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu/releases/${var.os_ver}/release/ubuntu-${var.os_ver}-live-server-arm64.iso"
+  iso_checksum_aarch64 = "file:https://mirrors.ustc.edu.cn/ubuntu-cdimage/releases/${var.os_ver}/release/SHA256SUMS"
 
 }
 
@@ -115,109 +115,109 @@ variable "aavmf_code" {
   default = "/usr/share/AAVMF/AAVMF_CODE.fd"
 }
 
-# Generic Cloud (Cloud-init)
+// # Generic Cloud (Cloud-init)
 
-variable "gencloud_disk_size" {
-  description = "The size in GB of hard disk of VM"
+// variable "gencloud_disk_size" {
+//   description = "The size in GB of hard disk of VM"
 
-  type    = string
-  default = "40G"
-}
+//   type    = string
+//   default = "40G"
+// }
 
-variable "gencloud_ssh_username" {
-  description = "The username to connect to SSH with"
+// variable "gencloud_ssh_username" {
+//   description = "The username to connect to SSH with"
 
-  type    = string
-  default = "root"
-}
+//   type    = string
+//   default = "root"
+// }
 
-variable "gencloud_ssh_password" {
-  description = "A plaintext password to use to authenticate with SSH"
+// variable "gencloud_ssh_password" {
+//   description = "A plaintext password to use to authenticate with SSH"
 
-  type    = string
-  default = "sugar"
-}
+//   type    = string
+//   default = "sugar"
+// }
 
-variable "gencloud_boot_command_8_x86_64" {
-  description = "Boot command for x86_64 BIOS"
+// variable "gencloud_boot_command_8_x86_64" {
+//   description = "Boot command for x86_64 BIOS"
 
-  type = list(string)
-  default = [
-    "<tab>",
-    "inst.text net.ifnames=0 inst.gpt",
-    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-8.gencloud-x86_64.ks",
-    "<enter><wait>"
-  ]
-}
+//   type = list(string)
+//   default = [
+//     "<tab>",
+//     "inst.text net.ifnames=0 inst.gpt",
+//     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-8.gencloud-x86_64.ks",
+//     "<enter><wait>"
+//   ]
+// }
 
-local "gencloud_boot_command_8_x86_64_uefi" {
-  expression = [
-    "c<wait>",
-    "linuxefi",
-    " /images/pxeboot/vmlinuz",
-    " inst.stage2=hd:LABEL=RockyLinux-8-${local.os_ver_minor_8}-x86_64-dvd ro",
-    " inst.text biosdevname=0 net.ifnames=0",
-    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-8.gencloud-x86_64.ks",
-    "<enter>",
-    "initrdefi /images/pxeboot/initrd.img",
-    "<enter>",
-    "boot<enter><wait>"
-  ]
-}
+// local "gencloud_boot_command_8_x86_64_uefi" {
+//   expression = [
+//     "c<wait>",
+//     "linuxefi",
+//     " /images/pxeboot/vmlinuz",
+//     " inst.stage2=hd:LABEL=RockyLinux-8-${local.os_ver_minor_8}-x86_64-dvd ro",
+//     " inst.text biosdevname=0 net.ifnames=0",
+//     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-8.gencloud-x86_64.ks",
+//     "<enter>",
+//     "initrdefi /images/pxeboot/initrd.img",
+//     "<enter>",
+//     "boot<enter><wait>"
+//   ]
+// }
 
-local "gencloud_boot_command_8_aarch64" {
-  expression = [
-    "c<wait>",
-    "linux /images/pxeboot/vmlinuz",
-    " inst.stage2=hd:LABEL=RockyLinux-8-${local.os_ver_minor_8}-aarch64-dvd ro",
-    " inst.text biosdevname=0 net.ifnames=0",
-    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-8.gencloud-aarch64.ks",
-    "<enter>",
-    "initrd /images/pxeboot/initrd.img",
-    "<enter>",
-    "boot<enter><wait>"
-  ]
-}
+// local "gencloud_boot_command_8_aarch64" {
+//   expression = [
+//     "c<wait>",
+//     "linux /images/pxeboot/vmlinuz",
+//     " inst.stage2=hd:LABEL=RockyLinux-8-${local.os_ver_minor_8}-aarch64-dvd ro",
+//     " inst.text biosdevname=0 net.ifnames=0",
+//     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-8.gencloud-aarch64.ks",
+//     "<enter>",
+//     "initrd /images/pxeboot/initrd.img",
+//     "<enter>",
+//     "boot<enter><wait>"
+//   ]
+// }
 
 
-variable "gencloud_boot_command_9_x86_64_bios" {
-  description = "Boot command for x86_64 BIOS"
+// variable "gencloud_boot_command_9_x86_64_bios" {
+//   description = "Boot command for x86_64 BIOS"
 
-  type = list(string)
-  default = [
-    "<tab>",
-    "inst.text biosdevname=0 net.ifnames=0 inst.gpt",
-    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-9.gencloud-x86_64-bios.ks",
-    "<enter><wait>"
-  ]
-}
+//   type = list(string)
+//   default = [
+//     "<tab>",
+//     "inst.text biosdevname=0 net.ifnames=0 inst.gpt",
+//     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-9.gencloud-x86_64-bios.ks",
+//     "<enter><wait>"
+//   ]
+// }
 
-local "gencloud_boot_command_9_x86_64" {
-  expression = [
-    "c<wait>",
-    "linuxefi /images/pxeboot/vmlinuz",
-    " inst.stage2=hd:LABEL=RockyLinux-9-${local.os_ver_minor_9}-x86_64-dvd ro",
-    " inst.text biosdevname=0 net.ifnames=0",
-    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-9.gencloud-x86_64.ks",
-    "<enter>",
-    "initrdefi /images/pxeboot/initrd.img",
-    "<enter>",
-    "boot<enter><wait>"
-  ]
-}
+// local "gencloud_boot_command_9_x86_64" {
+//   expression = [
+//     "c<wait>",
+//     "linuxefi /images/pxeboot/vmlinuz",
+//     " inst.stage2=hd:LABEL=RockyLinux-9-${local.os_ver_minor_9}-x86_64-dvd ro",
+//     " inst.text biosdevname=0 net.ifnames=0",
+//     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-9.gencloud-x86_64.ks",
+//     "<enter>",
+//     "initrdefi /images/pxeboot/initrd.img",
+//     "<enter>",
+//     "boot<enter><wait>"
+//   ]
+// }
 
-local "gencloud_boot_command_9_aarch64" {
-  expression = [
-    "c<wait>",
-    "linux /images/pxeboot/vmlinuz",
-    " inst.stage2=hd:LABEL=RockyLinux-9-${local.os_ver_minor_9}-aarch64-dvd ro",
-    " inst.text biosdevname=0 net.ifnames=0",
-    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-9.gencloud-aarch64.ks",
-    "<enter>",
-    "initrd /images/pxeboot/initrd.img<enter>",
-    "boot<enter><wait>"
-  ]
-}
+// local "gencloud_boot_command_9_aarch64" {
+//   expression = [
+//     "c<wait>",
+//     "linux /images/pxeboot/vmlinuz",
+//     " inst.stage2=hd:LABEL=RockyLinux-9-${local.os_ver_minor_9}-aarch64-dvd ro",
+//     " inst.text biosdevname=0 net.ifnames=0",
+//     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-9.gencloud-aarch64.ks",
+//     "<enter>",
+//     "initrd /images/pxeboot/initrd.img<enter>",
+//     "boot<enter><wait>"
+//   ]
+// }
 
 
 # Vagrant
@@ -254,30 +254,33 @@ variable "vagrant_ssh_password" {
 
 
 
-local "vagrant_boot_command" {
-  expression = [
-    "<esc><wait>",
-    "<esc><wait>",
-    "<enter><wait>",
-    "/install/vmlinuz",
-    " auto=true",
-    " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg", " locale=en_US<wait>",
-    " console-setup/ask_detect=false<wait>",
-    " console-setup/layoutcode=us<wait>",
-    " console-setup/modelcode=pc105<wait>",
-    " debconf/frontend=noninteractive<wait>",
-    " debian-installer=en_US<wait>",
-    " fb=false<wait>",
-    " initrd=/install/initrd.gz<wait>",
-    " kbd-chooser/method=us<wait>",
-    " keyboard-configuration/layout=USA<wait>",
-    " keyboard-configuration/variant=USA<wait>",
-    " netcfg/get_domain=vm<wait>",
-    " netcfg/get_hostname=vagrant<wait>",
-    " grub-installer/bootdev=/dev/sda<wait>",
-    " noapic<wait>",
-    " -- <wait>",
-  "<enter><wait>"]
-}
+// local "vagrant_boot_command_aarch64" {
+//   description = "Boot command for AArch64"
+
+//   type = list(string)
+//   default = [
+//     "<esc><wait>",
+//     "<esc><wait>",
+//     "<enter><wait>",
+//     "/install/vmlinuz",
+//     " auto=true",
+//     " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg", " locale=en_US<wait>",
+//     " console-setup/ask_detect=false<wait>",
+//     " console-setup/layoutcode=us<wait>",
+//     " console-setup/modelcode=pc105<wait>",
+//     " debconf/frontend=noninteractive<wait>",
+//     " debian-installer=en_US<wait>",
+//     " fb=false<wait>",
+//     " initrd=/install/initrd.gz<wait>",
+//     " kbd-chooser/method=us<wait>",
+//     " keyboard-configuration/layout=USA<wait>",
+//     " keyboard-configuration/variant=USA<wait>",
+//     " netcfg/get_domain=vm<wait>",
+//     " netcfg/get_hostname=vagrant<wait>",
+//     " grub-installer/bootdev=/dev/sda<wait>",
+//     " noapic<wait>",
+//     " -- <wait>",
+//   "<enter><wait>"]
+// }
 
 

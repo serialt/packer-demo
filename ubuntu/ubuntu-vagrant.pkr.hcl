@@ -112,17 +112,17 @@ source "qemu" "rockylinux-9" {
   ]
 }
 
-source "vmware-iso" "rockylinux-9-aarch64" {
-  iso_url          = local.iso_url_9_aarch64
-  iso_checksum     = local.iso_checksum_9_aarch64
-  boot_command     = var.vagrant_boot_command_9_aarch64
+source "vmware-iso" "ubuntu-aarch64" {
+  iso_url          = local.iso_url_aarch64
+  iso_checksum     = local.iso_checksum_aarch64
+  boot_command     = ["<esc><wait>", "<esc><wait>", "<enter><wait>", "/install/vmlinuz", " auto=true", " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg", " locale=en_US<wait>", " console-setup/ask_detect=false<wait>", " console-setup/layoutcode=us<wait>", " console-setup/modelcode=pc105<wait>", " debconf/frontend=noninteractive<wait>", " debian-installer=en_US<wait>", " fb=false<wait>", " initrd=/install/initrd.gz<wait>", " kbd-chooser/method=us<wait>", " keyboard-configuration/layout=USA<wait>", " keyboard-configuration/variant=USA<wait>", " netcfg/get_domain=vm<wait>", " netcfg/get_hostname=vagrant<wait>", " grub-installer/bootdev=/dev/sda<wait>", " noapic<wait>", " -- <wait>", "<enter><wait>"]
   boot_wait        = var.boot_wait
   cpus             = var.cpus
   memory           = var.memory
   disk_size        = var.vagrant_disk_size
   headless         = var.headless
   http_directory   = var.http_directory
-  guest_os_type    = "arm-rhel9-64"
+  guest_os_type    = "arm-ubuntu-64"
   shutdown_command = var.vagrant_shutdown_command
   ssh_username     = var.vagrant_ssh_username
   ssh_password     = var.vagrant_ssh_password
@@ -136,7 +136,7 @@ source "vmware-iso" "rockylinux-9-aarch64" {
     "firmware"             = "efi"
   }
   vmx_remove_ethernet_interfaces = true
-  vm_name                        = "rockylinux-9"
+  vm_name                        = "ubuntu"
   usb                            = true
   disk_adapter_type              = "nvme"
 }
@@ -146,7 +146,7 @@ build {
     // "sources.virtualbox-iso.rockylinux-9",
     // "sources.virtualbox-iso.rockylinux-9-aarch64",
     // "sources.vmware-iso.rockylinux-9",
-    "sources.vmware-iso.rockylinux-9-aarch64",
+    "sources.vmware-iso.ubuntu-aarch64",
     // "sources.qemu.rockylinux-9"
   ]
 
@@ -177,7 +177,7 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "RockyLinux-9-Vagrant-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.{{.Provider}}.box"
+      output            = "RockyLinux-9-Vagrant-${var.os_ver}-${formatdate("YYYYMMDD", timestamp())}.x86_64.{{.Provider}}.box"
       except = [
         "qemu.rockylinux-9",
         "vmware-iso.rockylinux-9-aarch64",
@@ -186,7 +186,7 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "RockyLinux-9-Vagrant-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.aarch64.{{.Provider}}.box"
+      output            = "RockyLinux-9-Vagrant-${var.os_ver}-${formatdate("YYYYMMDD", timestamp())}.aarch64.{{.Provider}}.box"
       only = [
         "vmware-iso.rockylinux-9-aarch64",
       ]
@@ -195,7 +195,7 @@ build {
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.tpl"
-      output               = "RockyLinux-9-Vagrant-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.{{.Provider}}.box"
+      output               = "RockyLinux-9-Vagrant-${var.os_ver}-${formatdate("YYYYMMDD", timestamp())}.x86_64.{{.Provider}}.box"
       only = [
         "qemu.rockylinux-9"
       ]
