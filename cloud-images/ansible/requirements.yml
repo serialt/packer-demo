@@ -1,0 +1,6 @@
+---
+collections:
+  - ansible.posix
+  - almalinux.ci
+  - community.general
+
