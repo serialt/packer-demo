@@ -1,8 +1,20 @@
+variable "mirrors_x86_64" {
+  description = "os mirrors url"
+  type        = string
+  default     = "https://mirror.sjtu.edu.cn/rocky"
+}
+
+variable "mirrors_aarch64" {
+  description = "os mirrors url"
+  type        = string
+  default     = "https://mirror.sjtu.edu.cn/rocky"
+}
+
 variable "os_ver_8" {
   description = "RockyLinux OS 8 version"
 
   type    = string
-  default = "8.8"
+  default = "8.9"
 
   validation {
     condition     = can(regex("8.[3-9]$|8.[1-9][0-9]$", var.os_ver_8))
@@ -14,7 +26,7 @@ variable "os_ver_9" {
   description = "RockyLinux OS 9 version"
 
   type    = string
-  default = "9.2"
+  default = "9.3"
 
   validation {
     condition     = can(regex("9.[0-9]$|9.[1-9][0-9]$", var.os_ver_9))
@@ -28,14 +40,14 @@ locals {
 }
 
 locals {
-  iso_url_8_x86_64       = "https://mirror.sjtu.edu.cn/rocky/${var.os_ver_8}/isos/x86_64/Rocky-${var.os_ver_8}-x86_64-boot.iso"
-  iso_checksum_8_x86_64  = "file:https://mirror.sjtu.edu.cn/rocky/${var.os_ver_8}/isos/x86_64/CHECKSUM"
-  iso_url_8_aarch64      = "https://mirror.sjtu.edu.cn/rocky/${var.os_ver_8}/isos/aarch64/Rocky-${var.os_ver_8}-aarch64-boot.iso"
-  iso_checksum_8_aarch64 = "file:https://mirror.sjtu.edu.cn/rocky/${var.os_ver_8}/isos/aarch64/CHECKSUM"
-  iso_url_9_x86_64       = "https://mirror.sjtu.edu.cn/rocky/${var.os_ver_9}/isos/x86_64/Rocky-${var.os_ver_9}-x86_64-boot.iso"
-  iso_checksum_9_x86_64  = "file:https://mirror.sjtu.edu.cn/rocky/${var.os_ver_9}/isos/x86_64/CHECKSUM"
-  iso_url_9_aarch64      = "https://mirror.sjtu.edu.cn/rocky/${var.os_ver_9}/isos/aarch64/Rocky-${var.os_ver_9}-aarch64-boot.iso"
-  iso_checksum_9_aarch64 = "file:https://mirror.sjtu.edu.cn/rocky/${var.os_ver_9}/isos/aarch64/CHECKSUM"
+  iso_url_8_x86_64       = "${var.mirrors_x86_64}/${var.os_ver_8}/isos/x86_64/Rocky-${var.os_ver_8}-x86_64-boot.iso"
+  iso_checksum_8_x86_64  = "file:${var.mirrors_x86_64}/${var.os_ver_8}/isos/x86_64/CHECKSUM"
+  iso_url_8_aarch64      = "${var.mirrors_aarch64}/${var.os_ver_8}/isos/aarch64/Rocky-${var.os_ver_8}-aarch64-boot.iso"
+  iso_checksum_8_aarch64 = "file:${var.mirrors_aarch64}/${var.os_ver_8}/isos/aarch64/CHECKSUM"
+  iso_url_9_x86_64       = "${var.mirrors_x86_64}/${var.os_ver_9}/isos/x86_64/Rocky-${var.os_ver_9}-x86_64-boot.iso"
+  iso_checksum_9_x86_64  = "file:${var.mirrors_x86_64}/${var.os_ver_9}/isos/x86_64/CHECKSUM"
+  iso_url_9_aarch64      = "${var.mirrors_aarch64}/${var.os_ver_9}/isos/aarch64/Rocky-${var.os_ver_9}-aarch64-boot.iso"
+  iso_checksum_9_aarch64 = "file:${var.mirrors_aarch64}/${var.os_ver_9}/isos/aarch64/CHECKSUM"
 
 }
 

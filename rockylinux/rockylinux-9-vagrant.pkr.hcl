@@ -128,8 +128,8 @@ source "vmware-iso" "rockylinux-9-aarch64" {
   ssh_password     = var.vagrant_ssh_password
   ssh_timeout      = var.ssh_timeout
   vmx_data = {
-    ".encoding"            = "UTF-8",
-    "config.version"       = "8",
+    ".encoding"      = "UTF-8",
+    "config.version" = "8",
     "virtualHW.version"    = "20",
     "usb_xhci.present"     = "true",
     "ethernet0.virtualdev" = "e1000e",
