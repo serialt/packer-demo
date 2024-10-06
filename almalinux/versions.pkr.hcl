@@ -9,6 +9,7 @@ packer {
     //   version = ">= 1.0.3"
     //   source  = "github.com/hashicorp/virtualbox"
     // }
+    
     vmware = {
       version = ">= 1.0.6"
       source  = "github.com/hashicorp/vmware"

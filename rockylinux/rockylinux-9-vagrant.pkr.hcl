@@ -158,12 +158,12 @@ build {
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",
-      "ANSIBLE_SSH_ARGS='-o ControlMaster=no -o ControlPersist=180s -oServerAliveInterval=120s -oTCPKeepAlive=yes -oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+ssh-rsa'"
+      "ANSIBLE_SCP_EXTRA_ARGS=-O",
     ]
     # ansible_ssh_extra_args = [ "-oHostKeyAlgorithms=+ssh-rsa","-oPubkeyAcceptedKeyTypes=+ssh-rsa" ]
     extra_arguments = [
       "--extra-vars",
-      "packer_provider=${source.type}"
+      "packer_provider=${source.type}",
     ]
     // except = [
     //   "hyperv-iso.rockylinux-9"
@@ -177,16 +177,16 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "RockyLinux-9-Vagrant-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.{{.Provider}}.box"
-      except = [
+      output            = "RockyLinux-9-Vagrant-{{.Provider}}-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.box"
+      only = [
         "qemu.rockylinux-9",
-        "vmware-iso.rockylinux-9-aarch64",
+        "vmware-iso.rockylinux-9-x86_64",
       ]
     }
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "RockyLinux-9-Vagrant-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.aarch64.{{.Provider}}.box"
+      output            = "RockyLinux-9-Vagrant-{{.Provider}}-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.aarch64.box"
       only = [
         "vmware-iso.rockylinux-9-aarch64",
       ]
@@ -195,7 +195,7 @@ build {
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.tpl"
-      output               = "RockyLinux-9-Vagrant-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.{{.Provider}}.box"
+      output               = "RockyLinux-9-Vagrant-{{.Provider}}-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.box"
       only = [
         "qemu.rockylinux-9"
       ]

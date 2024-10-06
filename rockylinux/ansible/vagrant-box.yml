@@ -1,7 +1,7 @@
 # An Ansible playbook that configures a Vagrant box
 ---
 - name: "RockyLinux Vagrant Box"
-  hosts: default
+  hosts: all
   become: true
   roles:
     - role: cleanup_vm

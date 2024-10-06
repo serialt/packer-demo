@@ -1,15 +1,17 @@
 ## packer vm
 
+使用 task 构建
+* [task](https://github.com/go-task/task)
+
+
 #### packer rocky
 ```shell
-cd rockylinux
-packer  build -only=vmware-iso.rockylinux-9-aarch64 .
+task rocky9-vmware
 ```
 
 #### packer alma
 ```shell
-cd almalinux
-packer  build -only=vmware-iso.almalinux-9-aarch64 . 
+task alma9-vmwar
 ```
 
 #### packer cloud alma

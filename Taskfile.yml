@@ -1,0 +1,19 @@
+version: '3'
+
+vars: 
+  MIRROR: ''
+
+tasks:
+  rocky9-vmware:
+    dir: rockylinux
+    cmds:
+    - packer  build -only=vmware-iso.rockylinux-9-aarch64 .
+
+  alma9-vmware:
+    dir: almalinux
+    cmds:
+    - packer  build -only=vmware-iso.almalinux-9-aarch64 . 
+  ubuntu:
+    dir: ubuntu
+    cmds:
+    - packer  build -only=vmware-iso.ubuntu-aarch64 . 
