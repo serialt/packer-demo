@@ -11,7 +11,7 @@ task rocky9-vmware
 
 #### packer alma
 ```shell
-task alma9-vmwar
+task alma9-vmware
 ```
 
 #### packer cloud alma
