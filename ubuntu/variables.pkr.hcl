@@ -1,24 +1,41 @@
-variable "os_ver" {
+variable "mirrors" {
+  description = "os mirrors url"
+  type        = string
+  default     = "https://mirror.sjtu.edu.cn"
+}
+
+variable "os_ver_2204" {
   description = "Ubuntu 2204"
 
   type    = string
-  default = "22.04.3"
+  default = "22.04.5"
 
 }
 
-variable "os_name" {
-  description = "Ubuntu os name"
-  type        = string
-  default     = "jammy"
+variable "os_ver_2404" {
+  description = "Ubuntu 2404"
+
+  type    = string
+  default = "24.04.1"
+
 }
+
+// variable "os_name" {
+//   description = "Ubuntu os name"
+//   type        = string
+//   default     = "jammy"
+// }
 
 
 
 locals {
-  iso_url_x86_64       = "https://mirrors.ustc.edu.cn/ubuntu-releases/${var.os_ver}/ubuntu-${var.os_ver}-live-server-amd64.iso"
-  iso_checksum_x86_64  = "file:https://mirrors.ustc.edu.cn/ubuntu-releases/${var.os_ver}/SHA256SUMS"
-  iso_url_aarch64      = "https://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu/releases/${var.os_ver}/release/ubuntu-${var.os_ver}-live-server-arm64.iso"
-  iso_checksum_aarch64 = "file:https://mirrors.ustc.edu.cn/ubuntu-cdimage/releases/${var.os_ver}/release/SHA256SUMS"
+  iso_url_2204_x86_64       = "${var.mirrors}/ubuntu-releases/${var.os_ver_2204}/ubuntu-${var.os_ver_2204}-live-server-amd64.iso"
+  iso_2204_checksum_x86_64  = "file:${var.mirrors}/ubuntu-releases/${var.os_ver_2204}/SHA256SUMS"
+  iso_url_aarch64      = "${var.mirrors}/ubuntu-cdimage/ubuntu/releases/${var.os_ver_2204}/release/ubuntu-${var.os_ver_2204}-live-server-arm64.iso"
+  iso_checksum_aarch64 = "file:${var.mirrors}/ubuntu-cdimage/ubuntu/releases/${var.os_ver_2204}/release/SHA256SUMS"
+
+  iso_url_2404_aarch64      = "${var.mirrors}/ubuntu-cdimage/ubuntu/releases/${var.os_ver_2404}/release/ubuntu-${var.os_ver_2404}-live-server-arm64.iso"
+  iso_2404_checksum_aarch64 = "file:${var.mirrors}/ubuntu-cdimage/ubuntu/releases/${var.os_ver_2404}/release/SHA256SUMS"
 
 }
 
@@ -206,18 +223,16 @@ variable "aavmf_code" {
 //   ]
 // }
 
-// local "gencloud_boot_command_9_aarch64" {
-//   expression = [
-//     "c<wait>",
-//     "linux /images/pxeboot/vmlinuz",
-//     " inst.stage2=hd:LABEL=RockyLinux-9-${local.os_ver_minor_9}-aarch64-dvd ro",
-//     " inst.text biosdevname=0 net.ifnames=0",
-//     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-9.gencloud-aarch64.ks",
-//     "<enter>",
-//     "initrd /images/pxeboot/initrd.img<enter>",
-//     "boot<enter><wait>"
-//   ]
-// }
+local "vagrant_boot_command" {
+  expression = [
+      "c",
+      "linux /casper/vmlinuz --- autoinstall ds='nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/' ",
+      "<enter><wait>",
+      "initrd /casper/initrd<enter><wait>",
+      "boot<enter>"
+    ]
+}
+
 
 
 # Vagrant
@@ -240,47 +255,15 @@ variable "vagrant_ssh_username" {
   description = "The username to connect to SSH with"
 
   type    = string
-  default = "vagrant"
+  default = "sugar"
 }
 
 variable "vagrant_ssh_password" {
   description = "A plaintext password to use to authenticate with SSH"
 
   type    = string
-  default = "vagrant"
+  default = "sugar"
 }
 
-
-
-
-
-// local "vagrant_boot_command_aarch64" {
-//   description = "Boot command for AArch64"
-
-//   type = list(string)
-//   default = [
-//     "<esc><wait>",
-//     "<esc><wait>",
-//     "<enter><wait>",
-//     "/install/vmlinuz",
-//     " auto=true",
-//     " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg", " locale=en_US<wait>",
-//     " console-setup/ask_detect=false<wait>",
-//     " console-setup/layoutcode=us<wait>",
-//     " console-setup/modelcode=pc105<wait>",
-//     " debconf/frontend=noninteractive<wait>",
-//     " debian-installer=en_US<wait>",
-//     " fb=false<wait>",
-//     " initrd=/install/initrd.gz<wait>",
-//     " kbd-chooser/method=us<wait>",
-//     " keyboard-configuration/layout=USA<wait>",
-//     " keyboard-configuration/variant=USA<wait>",
-//     " netcfg/get_domain=vm<wait>",
-//     " netcfg/get_hostname=vagrant<wait>",
-//     " grub-installer/bootdev=/dev/sda<wait>",
-//     " noapic<wait>",
-//     " -- <wait>",
-//   "<enter><wait>"]
-// }
 
 
