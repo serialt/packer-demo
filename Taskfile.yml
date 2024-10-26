@@ -13,7 +13,12 @@ tasks:
     dir: almalinux
     cmds:
     - packer  build -only=vmware-iso.almalinux-9-aarch64 . 
-  ubuntu:
+  ubuntu-2204:
     dir: ubuntu
     cmds:
-    - packer  build -only=vmware-iso.ubuntu-aarch64 . 
+    - packer  build -only=sources.vmware-iso.ubuntu-2204-aarch64 . 
+
+  ubuntu-2404:
+    dir: ubuntu
+    cmds:
+    - packer  build -only=sources.vmware-iso.ubuntu-2404-aarch64 . 

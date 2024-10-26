@@ -1,13 +1,13 @@
 variable "mirrors_x86_64" {
   description = "os mirrors url"
   type        = string
-  default     = "https://mirrors.cloud.tencent.com/almalinux"
+  default     = "https://mirrors.nju.edu.cn/almalinux"
 }
 
 variable "mirrors_aarch64" {
   description = "os mirrors url"
   type        = string
-  default     = "https://mirrors.cloud.tencent.com/almalinux"
+  default     = "https://mirrors.jxust.edu.cn/almalinux"
 }
 
 
@@ -47,7 +47,7 @@ locals {
   iso_checksum_8_aarch64 = "file:${var.mirrors_aarch64}/${var.os_ver_8}/isos/aarch64/CHECKSUM"
   iso_url_9_x86_64       = "${var.mirrors_x86_64}/${var.os_ver_9}/isos/x86_64/AlmaLinux-${var.os_ver_9}-x86_64-boot.iso"
   iso_checksum_9_x86_64  = "file:${var.mirrors_x86_64}/${var.os_ver_9}/isos/x86_64/CHECKSUM"
-  iso_url_9_aarch64      = "${var.mirrors_aarch64}/${var.os_ver_9}/isos/aarch64/Rocky-${var.os_ver_9}-aarch64-boot.iso"
+  iso_url_9_aarch64      = "${var.mirrors_aarch64}/${var.os_ver_9}/isos/aarch64/AlmaLinux-${var.os_ver_9}-aarch64-boot.iso"
   iso_checksum_9_aarch64 = "file:${var.mirrors_aarch64}/${var.os_ver_9}/isos/aarch64/CHECKSUM"
 
 }
